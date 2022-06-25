@@ -10,7 +10,7 @@
 # AWS_REGION e.g. ap-southeast-2
 # USERPOOL_ID e.g. ap-southeast-2_1122334455
 # USERPOOL_WEBCLIENTID e.g. 423523423543454325
-
+# STRIPE_PUBLIC_KEY Obtain from your Stripe account
 # are set for your environment appropriately
 
 cp ./src/environments/environment.ts.config ./src/environments/environment.prod.ts
@@ -20,6 +20,8 @@ sed -i 's/{ENV_LABEL}/prod/' ./src/environments/environment.prod.ts
 sed -i 's/{AWS_REGION}/ap-southeast-2/' ./src/environments/environment.prod.ts
 sed -i 's/{USERPOOL_ID}/$USERPOOL_ID/' ./src/environments/environment.prod.ts
 sed -i 's/{USERPOOL_WEBCLIENTID}/$USERPOOL_WEBCLIENTID/' ./src/environments/environment.prod.ts
+sed -i 's/{STRIPE_PUBLIC_KEY}/$STRIPE_PUBLIC_KEY/' ./src/environments/environment.prod.ts
+
 
 npm run build
 

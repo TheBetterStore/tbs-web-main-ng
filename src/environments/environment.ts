@@ -1,5 +1,6 @@
 export const environment = {
   production: false,
+  stripePublicKey: '{STRIPE_PUBLIC_KEY}',
   apiBaseUrl: 'https://{API_BASE_URL}/v1',
   baseUrl: '{BASE_URL}',
   envLabel: '{ENV_LABEL}',

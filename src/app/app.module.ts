@@ -33,6 +33,7 @@ import { ProductAdminComponent } from './components/admin/product-admin/product-
 import {MultiSelectModule} from 'primeng/multiselect';
 import {PickListModule} from 'primeng/picklist';
 import {DropdownModule} from 'primeng/dropdown';
+import {environment} from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -67,7 +68,7 @@ import {DropdownModule} from 'primeng/dropdown';
     ProgressSpinnerModule,
     ToastModule,
     ReactiveFormsModule,
-    NgxStripeModule.forRoot('pk_test_bNJSBFzdWS7HFT4QIN7jkIDB'),
+    NgxStripeModule.forRoot(environment.stripePublicKey),
     DropdownModule
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: TokenHttpInterceptor, multi: true}, AmplifyService, MessageService, ConfirmationService],
