@@ -1,0 +1,79 @@
+<span class="alert">{{errorMsg}}</span>
+<span class="info">{{infoMsg}}</span>
+<div class="container-fluid page">
+
+  <div class="row text-center">
+    <div class="col-12">
+      <h1 class="page-title">Errors</h1>
+    </div>
+  </div>
+
+  <p class="alert small">
+    Sample System Admin functions for demo.
+  </p>
+
+  <p>
+    The following errors require attention.
+  </p>
+
+  <div class="top-buffer">
+    <p-table *ngIf="!isLoading" #dt [columns]="cols" [value]="errors" dataKey="errorId" [resizableColumns]="true"
+             rows="{{pageSize}}" [paginator]="true" [lazy]="false" editMode="row">
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 3em">
+            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+          </th>
+          <th *ngFor="let col of cols"  pResizableColumn [style.width]="col.width" >
+            {{col.header}}
+          </th>
+          <th style="width: 4em"></th>
+        </tr>
+        <tr>
+          <th></th>
+          <th><input pInputText type="text" class="form-control" (input)="dt.filter($event.target.value, 'ErrorId', 'contains')"></th>
+          <th><input pInputText type="text" class="form-control" (input)="dt.filter($event.target.value, 'Timestamp', 'contains')"></th>
+          <th><input pInputText type="text" class="form-control" (input)="dt.filter($event.target.value, 'Status', 'contains')"></th>
+          <th><input pInputText type="text" class="form-control" (input)="dt.filter($event.target.value, 'CustomCode', 'contains')"></th>
+          <th><input pInputText type="text" class="form-control" (input)="dt.filter($event.target.value, 'ErrorMessage', 'contains')"></th>
+          <th></th>
+
+        </tr>
+
+      </ng-template>
+
+      <ng-template pTemplate="body" let-rec let-i="rowIndex" let-editing="editing" let-sel>
+        <tr [pEditableRow]="rec" >
+          <td>
+            <p-tableCheckbox [value]="rec"></p-tableCheckbox>
+          </td>
+          <td>{{rec.ErrorId}}
+          <td>{{rec.Timestamp}}
+          <td>{{rec.Status}}
+          <td>{{rec.CustomCode}}
+          <td class="ui-resizable-column">{{rec.ErrorMessage}}
+          <td class="ui-resizable-column" >{{rec.Message}}
+
+          <td style="text-align:center">
+            <button pButton type="button" icon="pi pi-plus" class="ui-button-primary ml-1"  style="font-size: 0.3em" title="Resend"></button>
+            <button pButton type="button" icon="pi pi-trash" class="pi-red ml-1"  style="font-size: 0.3em" title="Delete"></button>
+          </td>
+
+
+
+        </tr>
+      </ng-template>
+
+    </p-table>
+  </div>
+  <div class="row text-center top-buffer-x2">
+    <div class="col-12">
+      <a [routerLink]="'/home'" class="btn btn-primary">Close</a>
+    </div>
+  </div>
+
+</div>
+
+<p-toast position="center" class="custom-toast"></p-toast>
+<p-confirmDialog header="Warning" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+<p-progressSpinner *ngIf="isLoading" class="tbs-center"></p-progressSpinner>

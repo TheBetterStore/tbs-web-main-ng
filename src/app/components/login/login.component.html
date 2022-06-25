@@ -1,0 +1,25 @@
+<div class="container page">
+  <div class="row">
+    <div class="col-2"></div>
+    <div class=col-8>
+      <div class="card">
+        <div class="card-header">
+          <h4>Sign in</h4>
+        </div>
+        <div class="card-body">
+          <strong>Please login, or sign-up for making purchases. This will allow you to view order
+            progress and history.</strong>
+          <p class="small top-buffer"><i>* Personal information will never be shared with 3rd parties.</i></p>
+          <div class="top-buffer">
+            <amplify-authenticator  [formFields]="formFields" [loginMechanisms]="['email']" onStateChange="handle">
+              <ng-template amplifySlot="authenticated" let-user="user" let-signOut="signOut">
+              </ng-template>
+            </amplify-authenticator>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

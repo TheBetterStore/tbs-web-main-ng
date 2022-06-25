@@ -1,0 +1,110 @@
+@import '~@aws-amplify/ui-angular/theme.css';
+
+body {
+  background-color: #fff;
+  color: #333;
+}
+
+.top-buffer {
+  padding-top: 1rem;
+}
+
+.top-buffer-x2 {
+  margin-top: 2rem;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+}
+
+.alert {
+  color: red;
+  font-style: italic;
+  font-weight: normal;
+}
+
+.info {
+  color: rgb(32, 132, 55);
+  font-style: italic;
+  font-weight: normal;
+}
+
+/*--------------------------------------------------------------
+# Pages
+--------------------------------------------------------------*/
+.page {
+  padding-top: 1rem;
+}
+
+.page-title h2 {
+  font-family: "Roboto", sans-serif;
+  font-size: 45px;
+  font-weight: 100;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+  text-transform: capitalize;
+}
+
+.separator {
+  color: #626262;
+  font-family: "Roboto", sans-serif;
+  font-size: 15px;
+  font-weight: 300;
+  margin-bottom: 30px;
+  text-transform: capitalize;
+}
+
+.guide {
+  font-family: "Roboto", sans-serif;
+  font-weight: 100;
+  font-style: italic;
+  color: orangered;
+}
+
+/*--------------------------------------------------------------
+# Cards
+--------------------------------------------------------------*/
+.thumbnail:hover {
+  position: relative;
+  top:-5px;
+  left:-5px;
+  height: 150px;
+  display:block;
+  z-index:999;
+}
+
+/* The following allow cards in group to have equal heights */
+.card-group {
+  display: flex;
+  width: 100%;
+}
+
+.card-deck .card {
+  display: flex;
+  //flex: 1 1 auto;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card-block {
+  flex: 1 1 auto;
+}
+
+.card-deck .card .card-title {
+  font-weight: bold;
+}
+
+
+.card .dark {
+  background-color: #424242;
+  color: white;
+}
+
+.tbs-center {
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  -moz-transform: translateX(-50%) translateY(-50%);
+  -webkit-transform: translateX(-50%) translateY(-50%);
+}

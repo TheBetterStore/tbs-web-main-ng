@@ -1,0 +1,21 @@
+.title {
+  font-weight: bolder;
+}
+
+:host ::ng-deep th {
+  background: white !important;
+}
+
+:host ::ng-deep td {
+  background: white !important;
+}
+
+.pi-red {
+  background-color: darkred;
+}
+
+.hmargin-5 {
+  margin-left: 5rem;
+  margin-right: 5rem;
+}
+

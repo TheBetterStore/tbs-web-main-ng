@@ -1,0 +1,52 @@
+<span class="alert">{{errorMsg}}</span>
+<span class="info">{{infoMsg}}</span>
+<div *ngIf="!isLoading" class="container page myborder">
+
+
+  <div class="row myheader">
+    <div class="col-12 text-center">
+      <h2>{{product.name}}</h2>
+    </div>
+  </div>
+
+
+
+
+  <div class="card-group top-buffer">
+
+    <div class="card">
+      <div class="body">
+        <div>
+            <img class="card-img" src="{{product.imageUrl}}" />
+        </div>
+
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-body small">
+        <strong>Description:</strong>
+        <div class="text">{{product.description}}</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-body small">
+        <p>${{product.price | number : '1.2-2'}} NZD</p>
+
+        <p>Quantity:</p>
+        <p><input class="form-control-sm" type="number" value="{{addQuantity}}"></p>
+
+
+        <button class="btn btn-primary" (click)="onAddProduct()">Add to cart</button>
+      </div>
+    </div>
+
+  </div>
+
+
+</div>
+
+<p-progressSpinner *ngIf="isLoading" class="tbs-center"></p-progressSpinner>
+<p-toast position="center" class="custom-toast"></p-toast>
+<p-confirmDialog header="Warning" icon="pi pi-exclamation-triangle"></p-confirmDialog>

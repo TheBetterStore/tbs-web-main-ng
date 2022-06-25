@@ -1,0 +1,56 @@
+<span class="alert">{{errorMsg}}</span>
+<span class="info">{{infoMsg}}</span>
+<div class="container page">
+
+  <div class="row top-buffer-x2">
+    <div class="col-3"></div>
+    <div class="col-6">
+
+      <div class="card">
+        <div class="card-header text-white bg-primary"><h2>Card Payment</h2></div>
+        <div class="card-body">
+          <div class="alert small">Note: This site is for training & demonstration purposes only and is operating
+            in test-mode only. DO NOT enter live C/C details (NB CC details are received and handled by Stripe(test))
+          </div>
+          <div>Please enter details below:</div>
+          <div class="top-buffer">
+            <form novalidate (ngSubmit)="createToken()" [formGroup]="stripeTest">
+              <div class="row">
+                <div class="col-12">
+                  <input class="form-control fullname" type="text" formControlName="name" placeholder="Full name">
+                </div>
+              </div>
+              <div class="row top-buffer">
+                <div class="col-12">
+                  <input class="form-control email" type="email" formControlName="email" placeholder="Receipt email">
+                </div>
+              </div>
+
+
+              <div class="row top-buffer-2">
+                <div class="col-12 top-buffer-x2">
+                  <ngx-stripe-card class="form-control"
+                                   [options]="cardOptions"
+                                   [elementsOptions]="elementsOptions"
+                  ></ngx-stripe-card>
+                </div>
+              </div>
+              <div class="text-center">
+                <button type="submit" class="btn btn-primary top-buffer-x2"
+                        [disabled]="isLoading || !stripeTest.valid">
+                  Pay ${{totalAmount| number : '1.2-2'}} NZD
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="card-footer text-center">
+          <span class="text-muted my-footer">Payments powered by Stripe</span>
+        </div>
+      </div>
+      <div class="col3"></div>
+    </div>
+  </div>
+</div>
+<p-toast position="center"></p-toast>
+<p-progressSpinner *ngIf="isLoading" class="tbs-center"></p-progressSpinner>

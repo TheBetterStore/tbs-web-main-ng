@@ -1,0 +1,84 @@
+<span class="alert">Note: This site is for training & demonstration purposes only!</span>
+<span class="alert">{{errorMsg}}</span>
+<span class="info">{{infoMsg}}</span>
+<div class="container page">
+
+  <div class="row text-center">
+    <div class="col-12">
+      <h1 class="page-title">The Better Store</h1>
+    </div>
+  </div>
+
+  <p class="top-buffer-x2">
+    The Better Store is an open-source eCommerce solution, which also aims to showcase
+    modern technologies and design methods, and serve as an educational tool for the creation of scalable Cloud-based software on AWS.
+  </p>
+
+  <div class="card-group top-buffer">
+
+    <div class="card">
+      <div class="card-header">
+        <h2>Mobile Devices</h2>
+        <div>
+          <a href="#" [routerLink]="'/products'" [queryParams]="{category: 'MOBILE'}">
+            <img class="card-img thumbnail" src="/assets/images/smartphone.svg" height="140px" />
+          </a>
+        </div>
+
+        <div class="card-body small">
+          <span>The latest mobile phones and tablets from popular brands.</span>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <h2>Computers</h2>
+        <div>
+          <a href="#" [routerLink]="'/products'" [queryParams]="{category: 'COMPUTERS'}" >
+            <img class="card-img-top thumbnail" src="/assets/images/laptop1.jpg" height="140px" />
+          </a>
+        </div>
+        <div class="card-body small">
+          <span>Desktops and notebooks for business or home needs.</span>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <h2>Toys & Hobbies</h2>
+        <div>
+          <a href="#" [routerLink]="'/products'" [queryParams]="{'category': 'HOBBIES'}">
+            <img class="card-img-top thumbnail"  src="/assets/images/drone.jpg" height="140px" />
+          </a>
+        </div>
+        <div class="card-body small">
+          <span>Including drones, RC toys and STEM.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <h2>Books</h2>
+        <div>
+          <a href="#" [routerLink]="'/products'" [queryParams]="{'category': 'BOOKS'}">
+            <img class="card-img-top thumbnail"  src="/assets/images/books.jpg" height="140px" />
+          </a>
+        </div>
+        <div class="card-body small">
+          <span>Technology-related books and magazines.</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<p-toast position="center" class="custom-toast"></p-toast>
+<p-confirmDialog header="Warning" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+<p-progressSpinner *ngIf="isLoading" class="tbs-center"></p-progressSpinner>

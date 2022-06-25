@@ -1,0 +1,15 @@
+.title {
+  font-weight: bolder;
+}
+
+:host ::ng-deep th {
+  background: white !important;
+}
+
+:host ::ng-deep td {
+  background: white !important;
+}
+
+.pi-red {
+  background-color: darkred;
+}

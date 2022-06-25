@@ -1,0 +1,78 @@
+<span class="alert">{{errorMsg}}</span>
+<span class="info">{{infoMsg}}</span>
+<div class="container page">
+
+  <div class="row text-center">
+    <div class="col-12">
+      <h1 class="page-title">Shopping Cart</h1>
+    </div>
+  </div>
+
+  <p class="top-buffer">
+    Please review your selected items and quantities below, before checking-out.
+  </p>
+
+  <div class="top-buffer">
+    <p-table *ngIf="!isLoading" #dt [columns]="cols" [value]="selectedProducts" selectionMode="single" dataKey="product_id">
+      <ng-template pTemplate="header">
+        <tr>
+          <th class="d-none d-sm-block" pResizableColumn [style.width]="'15%'"></th>
+          <th pResizableColumn [style.width]="'20%'">Name</th>
+          <th pResizableColumn [style.width]="'15%'">Brand</th>
+          <th pResizableColumn [style.width]="'15%'">Quantity</th>
+          <th pResizableColumn [style.width]="'22%'">Price</th>
+          <th [style.width]="'8em'"></th>
+        </tr>
+
+      </ng-template>
+
+      <ng-template pTemplate="body" let-rec let-i="rowIndex" let-editing="editing" let-ri="rowIndex" let-index="rowIndex" let-sel>
+        <tr [pEditableRow]="rec" [pSelectableRow]="sel" [pReorderableRow]="index">
+          <td class="d-none d-sm-block"><img src="{{rec.product.imageUrl}}" width="50rem" height="50rem"/></td>
+          <td>{{rec.product.name}}</td>
+          <td>{{rec.product.brandId}}</td>
+
+          <td class="rightalign">
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input class="form-control" type="number" min="0" max="10" [(ngModel)]="rec.quantity "/>
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{rec.quantity}}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td class="rightalign">{{rec.product.price | number : '1.2-2'}}</td>
+
+          <td style="text-align:center">
+            <button *ngIf="!editing" pButton type="button" icon="pi pi-plus" class="ui-button-primary ml-1"  style="font-size: 0.3em" title="Add"
+                    (click)="onAddProduct(rec)"></button>
+            <button *ngIf="!editing" pButton type="button" icon="pi pi-trash" class="pi-red ml-1"  style="font-size: 0.3em" title="Delete"
+                    (click)="onDeleteProduct(rec)"></button>
+          </td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="footer">
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>Net Total</td>
+          <td>{{cart.netTotal| number : '1.2-2'}}</td>
+        </tr>
+      </ng-template>
+
+    </p-table>
+  </div>
+  <div class="row text-center top-buffer-x2">
+    <div class="col-12">
+      <a [routerLink]="'/products'" class="btn btn-primary hmargin-5">Continue Shopping</a>
+      <a [routerLink]="'/checkout'" class="btn btn-success hmargin-5">Checkout</a>
+    </div>
+  </div>
+</div>
+
+<p-toast position="center" class="custom-toast"></p-toast>
+<p-confirmDialog header="Warning" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+<p-progressSpinner *ngIf="isLoading" class="tbs-center"></p-progressSpinner>
