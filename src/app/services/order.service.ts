@@ -44,7 +44,7 @@ export class OrderService extends BaseService {
     console.log(`Sending order`);
     const url = `${environment.apiBaseUrl}/order/v1/orders`;
 
-    console.log('Calling url:' + url);
+    console.log('Calling POST on url:' + url);
     console.log(JSON.stringify(order));
     const result$ = this.http
       .post(url, order)
