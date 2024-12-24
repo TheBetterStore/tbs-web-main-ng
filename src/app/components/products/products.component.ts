@@ -27,8 +27,11 @@ export class ProductsComponent implements OnInit {
   offset = 0;
   rowsPerPageList = [5, 25, 50, 100, this.maxRowsPerPage];
 
+  selectedCategory='Books';
+  isCategoryBooks = true;
 
-  cols: any[];
+  bookCols: any[];
+  computerCols: any[];
   sub: any;
 
   constructor(private productService: ProductService, private route: ActivatedRoute,
@@ -38,18 +41,25 @@ export class ProductsComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.cols = [
+    this.bookCols = [
+      { field: 'imageUrl', header: '', width: '15%', filterMatchMode: 'contains' },
+      { field: 'name', header: 'Name', width: '20%', filterMatchMode: 'contains' },
+      { field: 'bookDetails.authors', header: 'Authors', width: '15%', filterMatchMode: 'contains' },
+      { field: 'reviews', header: 'Reviews', width: '15%', filterMatchMode: 'contains' },
+      { field: 'price', header: 'Price', width: '22%', filterMatchMode: 'contains', },
+    ];
+
+    this.computerCols = [
       { field: 'imageUrl', header: '', width: '15%', filterMatchMode: 'contains' },
       { field: 'name', header: 'Name', width: '20%', filterMatchMode: 'contains' },
       { field: 'brand', header: 'Brand', width: '15%', filterMatchMode: 'contains' },
       { field: 'price', header: 'Price', width: '22%', filterMatchMode: 'contains', },
-
     ];
 
     this.sub = this.route.queryParams.subscribe(params => {
       console.log(params);
-      const category = params.category || 'ALL';
-      this.loadProducts(category);
+      this.selectedCategory = params.category || 'ALL';
+      this.loadProducts(this.selectedCategory);
     });
   }
 
