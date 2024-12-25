@@ -31,16 +31,16 @@
         <tr [pSelectableRow]="sel">
           <td>
             <a routerLink="{{rec.productId}}" >
-              <img src="{{rec.imageUrl}}" width="50rem" height="50rem"/>
+              <img src="{{rec.smallImageUrl}}" width="50rem" height="50rem"/>
             </a>
           </td>
           <td>
-            <a routerLink="{{rec.productId}}" >
+            <a routerLink="{{rec.productId}}">
               {{rec.name}}
             </a>
           </td>
           <td>{{rec.bookDetails.authors}}</td>
-          <td>{{rec.reviews}}</td>
+          <td>{{rec.bookDetails.genre}}</td>
 
           <td class="rightalign">{{rec.price | number : '1.2-2'}}</td>
 

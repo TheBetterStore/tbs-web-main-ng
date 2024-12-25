@@ -45,7 +45,7 @@ export class ProductsComponent implements OnInit {
       { field: 'imageUrl', header: '', width: '15%', filterMatchMode: 'contains' },
       { field: 'name', header: 'Name', width: '20%', filterMatchMode: 'contains' },
       { field: 'bookDetails.authors', header: 'Authors', width: '15%', filterMatchMode: 'contains' },
-      { field: 'reviews', header: 'Reviews', width: '15%', filterMatchMode: 'contains' },
+      { field: 'genre', header: 'Genre', width: '15%', filterMatchMode: 'contains' },
       { field: 'price', header: 'Price', width: '22%', filterMatchMode: 'contains', },
     ];
 
