@@ -68,7 +68,78 @@
     </div>
   </div>
 
-  <div *ngIf="product.category!='BOOKS'" class="card-group top-buffer">
+  <div *ngIf="product.category=='MOBILE'" class="card-group top-buffer">
+
+    <div class="card">
+      <div class="body">
+        <div>
+          <img class="card-img" src="{{product.imageUrl}}" />
+        </div>
+
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-body small">
+        <div>
+          <strong>Description:</strong>
+        </div>
+        <div>
+          <div class="text">{{product.description}}</div>
+        </div>
+        <div class="row top-buffer">
+          <div class="col-4"><strong>Model):</strong></div>
+          <div class="col-8">{{product?.mobileDetails?.model}} </div>
+        </div>
+        <div class="row">
+          <div class="col-4"><strong>Colour:</strong></div>
+          <div class="col-8">{{product?.mobileDetails?.color}}</div>
+        </div>
+        <div class="row">
+          <div class="col-4"><strong>Screen Size:</strong></div>
+          <div class="col-8">{{product?.mobileDetails?.sizeInches}}&quot;</div>
+        </div>
+        <div class="row">
+          <div class="col-4"><strong>Display Res.:</strong></div>
+          <div class="col-8">{{product?.mobileDetails?.displayRes}} </div>
+        </div>
+        <div class="row">
+          <div class="col-4"><strong>CPU:</strong></div>
+          <div class="col-8">{{product?.mobileDetails?.cpuType}} </div>
+        </div>
+        <div class="row">
+          <div class="col-4"><strong>RAM:</strong></div>
+          <div class="col-8">{{product?.mobileDetails?.memoryGB}} GB</div>
+        </div>
+        <div class="row">
+          <div class="col-4"><strong>Storage:</strong></div>
+          <div class="col-8">{{product?.mobileDetails?.storageGB}} GB</div>
+        </div>
+        <div class="row">
+          <div class="col-4"><strong>Battery mAh:</strong></div>
+          <div class="col-8">{{product?.mobileDetails?.batteryMah}} </div>
+        </div>
+        <div class="row">
+          <div class="col-4"><strong>Weight (grams):</strong></div>
+          <div class="col-8">{{product?.mobileDetails?.weightGm}} </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-body small">
+        <p>${{product.price | number : '1.2-2'}} NZD</p>
+
+        <p>Quantity:</p>
+        <p><input class="form-control-sm" type="number" value="{{addQuantity}}"></p>
+
+
+        <button class="btn btn-primary" (click)="onAddProduct()">Add to cart</button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="product.category=='COMPUTERS'" class="card-group top-buffer">
 
     <div class="card">
       <div class="body">

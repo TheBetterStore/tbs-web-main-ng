@@ -32,6 +32,7 @@ export class ProductsComponent implements OnInit {
 
   bookCols: any[];
   computerCols: any[];
+  mobileCols: any[];
   sub: any;
 
   constructor(private productService: ProductService, private route: ActivatedRoute,
@@ -53,6 +54,14 @@ export class ProductsComponent implements OnInit {
       { field: 'imageUrl', header: '', width: '15%', filterMatchMode: 'contains' },
       { field: 'name', header: 'Name', width: '20%', filterMatchMode: 'contains' },
       { field: 'brand', header: 'Brand', width: '15%', filterMatchMode: 'contains' },
+      { field: 'price', header: 'Price', width: '22%', filterMatchMode: 'contains', },
+    ];
+
+    this.mobileCols = [
+      { field: 'imageUrl', header: '', width: '10%', filterMatchMode: 'contains' },
+      { field: 'brand', header: 'Make', width: '10%', filterMatchMode: 'contains' },
+      { field: 'model', header: 'Model', width: '10%', filterMatchMode: 'contains' },
+      { field: 'name', header: 'Name', width: '20%', filterMatchMode: 'contains' },
       { field: 'price', header: 'Price', width: '22%', filterMatchMode: 'contains', },
     ];
 
