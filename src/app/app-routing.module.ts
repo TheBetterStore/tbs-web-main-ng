@@ -10,6 +10,7 @@ import {LoginComponent} from './components/login/login.component';
 import {LogoutComponent} from './components/logout/logout.component';
 import {AuthGuard} from './guards/auth.guard';
 import {ProductAdminComponent} from './components/admin/product-admin/product-admin.component';
+import {OrdersComponent} from "./components/orders/orders.component";
 
 const routes: Routes = [{
     path: 'home',
@@ -18,6 +19,10 @@ const routes: Routes = [{
   {
     path: 'about',
     component: AboutComponent
+  },
+  {
+    path: 'orders',
+    component: OrdersComponent, canActivate: [AuthGuard]
   },
   {
     path: 'products',

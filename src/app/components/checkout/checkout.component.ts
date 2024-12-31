@@ -97,7 +97,7 @@ export class CheckoutComponent implements OnInit {
               });
               setTimeout(
                 () => {
-                  self.router.navigate(['/products']);
+                  self.router.navigate(['/home']);
                 }, 3000);
             }, e => {
                     self.isLoading = false;
