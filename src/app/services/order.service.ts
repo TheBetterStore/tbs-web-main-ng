@@ -7,6 +7,7 @@ import {environment} from '../../environments/environment';
 import {catchError, map} from 'rxjs/operators';
 
 import {IOrder} from '../models/order.interface';
+import {DateUtils} from "../helpers/date-utils";
 
 @Injectable({
   providedIn: 'root'
@@ -60,5 +61,8 @@ function mapOrders(response: any): IOrder[] {
 
 function toOrder(r: any): IOrder {
   const q: IOrder = r;
+  q.createdTimeLocal = DateUtils.getLocalDateFromIso(r.createdTime);
+  q.lastUpdatedTimeLocal = DateUtils.getLocalDateFromIso(r.lastUpdatedTime);
   return q;
 }
+

@@ -1,6 +1,6 @@
 import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
 
-import {StripeCardElementOptions, StripeElementsOptions} from '@stripe/stripe-js';
+import {PaymentIntent, PaymentIntentResult, StripeCardElementOptions, StripeElementsOptions} from '@stripe/stripe-js';
 import {StripeCardComponent, StripeService} from 'ngx-stripe';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MessageService} from 'primeng/api';
@@ -23,6 +23,9 @@ export class CheckoutComponent implements OnInit {
   totalAmount = 0;
   errorMsg: string;
   infoMsg: string;
+
+  piSecret: string;
+  orderId: string;
 
   @ViewChild(StripeCardComponent) card: StripeCardComponent;
   cardOptions: StripeCardElementOptions = {
@@ -72,52 +75,83 @@ export class CheckoutComponent implements OnInit {
     });
   }
 
-  createToken(): void {
+  createPaymentIntent(): void {
     const self = this;
     self.isLoading = true;
     const name = this.stripeTest.get('name').value;
     const email = this.stripeTest.get('email').value;
-    this.stripeService
-      .createToken(this.card.element, { name })
-      .subscribe((result) => {
-        if (result.token) {
-          // Use the token
-          console.log(result.token.id);
 
-          const cart: ICart = this.cartService.getCart();
-          const order: IOrder = OrderMapper.mapCartToOrder(email, result.token.id, cart);
+    const cart: ICart = this.cartService.getCart();
+    const order: IOrder = OrderMapper.mapCartToOrder(email, '', cart);
 
-          self.orderService.sendOrder(order)
-            .subscribe(o => {
-              self.isLoading = false;
-              self.cartService.clear();
-              self.messageService.add({
-                severity: 'success',
-                summary: 'Payment succeeded', detail: `Order ${o.orderId} has been created, an order receipt is on its way`, life: 5000
-              });
-              setTimeout(
-                () => {
-                  self.router.navigate(['/products']);
-                }, 3000);
-            }, e => {
-                    self.isLoading = false;
-                    this.messageService.add({
-                      severity: 'error',
-                      summary: 'Status retrieval failed',
-                      detail: e.message,
-                      life: 5000
-                    });
-                    self.errorMsg = e.message;
-                  }
-                );
-            } else if (result.error) {
+    self.orderService.sendOrder(order)
+      .subscribe(o => {
+        console.log(o);
+        self.piSecret = o.client_secret;
+        self.orderId = o.orderId;
+        self.isLoading = false;
+      }, e => {
+        self.isLoading = false;
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Status retrieval failed',
+          detail: e.message,
+          life: 5000
+        });
+        self.errorMsg = e.message;
+      }
+    );
+  }
+
+  confirmPayment(): void {
+    const self = this;
+    self.isLoading = true;
+    const name = this.stripeTest.get('name').value;
+    const email = this.stripeTest.get('email').value;
+
+    const cart: ICart = this.cartService.getCart();
+    const order: IOrder = OrderMapper.mapCartToOrder(email, '', cart);
+
+    self.orderService.sendOrder(order)
+      .subscribe(o => {
+          const intent = o.paymentIntent;
+          this.stripeService
+            .confirmCardPayment(intent.client_secret, {payment_method: {card: this.card.element}})
+            .subscribe((result) => {
+              console.log(result);
+              if (result?.paymentIntent?.status == 'succeeded') {
+                // Use the token
+                self.isLoading = false;
+                self.cartService.clear();
+                self.messageService.add({
+                  severity: 'success',
+                  summary: 'Payment succeeded', detail: `Order ${o.orderId} has been created, an order receipt is on its way`, life: 5000
+                });
+                setTimeout(
+                  () => {
+                    self.router.navigate(['/home']);
+                  }, 3000);
+
+              } else if (result.error) {
+                self.isLoading = false;
+                // Error creating the token
+                console.log(result.error.message);
+                self.messageService.add({severity: 'error',
+                  summary: 'Payment failed', detail: result.error.message, life: 5000});
+                self.errorMsg = result.error.message;
+              }
+            });
+            self.isLoading = false;
+        }, e => {
           self.isLoading = false;
-          // Error creating the token
-          console.log(result.error.message);
-          self.messageService.add({severity: 'error',
-            summary: 'Payment failed', detail: result.error.message, life: 5000});
-          self.errorMsg = result.error.message;
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Status retrieval failed',
+            detail: e.message,
+            life: 5000
+          });
+          self.errorMsg = e.message;
         }
-      });
+      );
   }
 }
