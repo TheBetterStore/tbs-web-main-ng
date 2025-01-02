@@ -14,7 +14,7 @@
           </div>
           <div>Please enter details below:</div>
           <div class="top-buffer">
-            <form novalidate (ngSubmit)="createToken()" [formGroup]="stripeTest">
+            <form novalidate (ngSubmit)="confirmPayment()" [formGroup]="stripeTest">
               <div class="row">
                 <div class="col-12">
                   <input class="form-control fullname" type="text" formControlName="name" placeholder="Full name">

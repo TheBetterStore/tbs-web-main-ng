@@ -9,7 +9,9 @@ export interface IOrder {
   taxTotal: number;
   orderItems: IOrderItem[];
   createdTime?: string;
+  createdTimeLocal?: string;
   lastUpdatedTime?: string;
+  lastUpdatedTimeLocal?: string;
 }
 
 export interface IOrderItem {
