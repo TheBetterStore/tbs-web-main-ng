@@ -11,6 +11,7 @@ import {LogoutComponent} from './components/logout/logout.component';
 import {AuthGuard} from './guards/auth.guard';
 import {ProductAdminComponent} from './components/admin/product-admin/product-admin.component';
 import {OrdersComponent} from "./components/orders/orders.component";
+import {OrderComponent} from "./components/order/order.component";
 
 const routes: Routes = [{
     path: 'home',
@@ -23,6 +24,10 @@ const routes: Routes = [{
   {
     path: 'orders',
     component: OrdersComponent, canActivate: [AuthGuard]
+  },
+  {
+    path: 'orders/:orderId',
+    component: OrderComponent, canActivate: [AuthGuard]
   },
   {
     path: 'products',

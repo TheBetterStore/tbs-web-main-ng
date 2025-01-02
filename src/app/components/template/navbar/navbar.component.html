@@ -21,6 +21,17 @@
         </a>
       </li>
 
+      <li class="nav-item dropdown">
+        <a class="nav-link" dropdown-toggle  id="navbarDropdownShop"
+           role="button" data-bs-toggle="dropdown" aria-expanded="false">Shop</a>
+        <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownShop">
+          <a class="dropdown-item" [routerLink]="'/products?category=MOBILE'">Mobile</a>
+          <a class="dropdown-item" [routerLink]="'/products?category=COMPUTERS'">Computers</a>
+          <a class="dropdown-item" [routerLink]="'/products?category=HOBBIES'">Toys & Hobbies</a>
+          <a class="dropdown-item" [routerLink]="'/products?category=BOOKS'">Books</a>
+        </div>
+      </li>
+
       <li *ngIf="isAdmin()" class="nav-item dropdown">
         <a class="nav-link" dropdown-toggle  id="navbarDropdownAdmin"
            role="button" data-bs-toggle="dropdown" aria-expanded="false">Administration</a>
@@ -28,7 +39,6 @@
           <a class="dropdown-item" [routerLink]="'/errors'">Errors</a>
           <a class="dropdown-item" [routerLink]="'/admin/products'">Products</a>
         </div>
-
       </li>
 
       <li class="nav-item">
@@ -42,6 +52,7 @@
           <a class="nav-link dropdown-toggle" id="navbarDropdown"
              role="button" data-bs-toggle="dropdown" aria-expanded="false">User: {{login.firstname}}</a>
           <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="/orders">Order History</a>
             <a class="dropdown-item" href="/logout">Logout</a>
           </div>
         </li>
