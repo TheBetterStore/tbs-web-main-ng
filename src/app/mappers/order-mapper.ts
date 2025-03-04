@@ -2,10 +2,9 @@ import {ICart, ICartItem} from '../models/cart.interface';
 import {IOrder, IOrderItem} from '../models/order.interface';
 
 export class OrderMapper {
-  public static mapCartToOrder(receiptEmail: string, stripeToken: string, c: ICart): IOrder {
+  public static mapCartToOrder(stripeToken: string, c: ICart): IOrder {
     console.log(c);
     const order: IOrder = {
-      receiptEmail,
       stripeToken,
       netTotal: c.netTotal,
       grossTotal: c.grossTotal,

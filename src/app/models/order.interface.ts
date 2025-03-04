@@ -1,7 +1,6 @@
 export interface IOrder {
   orderId?: string;
   customerId?: string;
-  receiptEmail?: string;
   stripeToken?: string;
   netTotal: number;
   grossTotal: number;
