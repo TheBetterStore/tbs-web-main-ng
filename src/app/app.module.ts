@@ -34,6 +34,7 @@ import {MultiSelectModule} from 'primeng/multiselect';
 import {PickListModule} from 'primeng/picklist';
 import {DropdownModule} from 'primeng/dropdown';
 import {environment} from '../environments/environment';
+import { OrderComponent } from './components/order/order.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import {environment} from '../environments/environment';
     ProductComponent,
     LoginComponent,
     LogoutComponent,
-    ProductAdminComponent
+    ProductAdminComponent,
+    OrderComponent
   ],
   imports: [
     BrowserModule,

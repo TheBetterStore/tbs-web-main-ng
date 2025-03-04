@@ -70,50 +70,22 @@ export class CheckoutComponent implements OnInit {
     const cart = this.cartService.getCart();
     this.totalAmount = cart.netTotal;
     this.stripeTest = this.fb.group({
-      email: ['', [Validators.required]],
       name: ['', [Validators.required]]
     });
-  }
-
-  createPaymentIntent(): void {
-    const self = this;
-    self.isLoading = true;
-    const name = this.stripeTest.get('name').value;
-    const email = this.stripeTest.get('email').value;
-
-    const cart: ICart = this.cartService.getCart();
-    const order: IOrder = OrderMapper.mapCartToOrder(email, '', cart);
-
-    self.orderService.sendOrder(order)
-      .subscribe(o => {
-        console.log(o);
-        self.piSecret = o.client_secret;
-        self.orderId = o.orderId;
-        self.isLoading = false;
-      }, e => {
-        self.isLoading = false;
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Status retrieval failed',
-          detail: e.message,
-          life: 5000
-        });
-        self.errorMsg = e.message;
-      }
-    );
   }
 
   confirmPayment(): void {
     const self = this;
     self.isLoading = true;
     const name = this.stripeTest.get('name').value;
-    const email = this.stripeTest.get('email').value;
 
     const cart: ICart = this.cartService.getCart();
-    const order: IOrder = OrderMapper.mapCartToOrder(email, '', cart);
+    const order: IOrder = OrderMapper.mapCartToOrder('', cart);
 
+    // First, send request to order backend to initialise Order and create a Stripe Payment Intent
     self.orderService.sendOrder(order)
       .subscribe(o => {
+          // Obtain Stripe's created PaymentIntent from the response, and confirm payment with Stripe
           const intent = o.paymentIntent;
           this.stripeService
             .confirmCardPayment(intent.client_secret, {payment_method: {card: this.card.element}})

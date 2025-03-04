@@ -41,6 +41,17 @@ export class OrderService extends BaseService {
     return orders$;
   }
 
+  getOrder(orderId: string): Observable<any> {
+    let url = `${environment.apiBaseUrl}/order/v1/orders/${orderId}`;
+
+    console.log('Calling GET on url:' + url);
+    const order$ = this.http
+      .get(url)
+      .pipe(catchError(this.handleError));
+    return order$;
+  }
+
+
   sendOrder(order: IOrder): Observable<any> {
     console.log(`Sending order`);
     const url = `${environment.apiBaseUrl}/order/v1/orders`;
