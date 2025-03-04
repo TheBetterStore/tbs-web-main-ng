@@ -25,10 +25,10 @@
         <a class="nav-link" dropdown-toggle  id="navbarDropdownShop"
            role="button" data-bs-toggle="dropdown" aria-expanded="false">Shop</a>
         <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownShop">
-          <a class="dropdown-item" [routerLink]="'/products?category=MOBILE'">Mobile</a>
-          <a class="dropdown-item" [routerLink]="'/products?category=COMPUTERS'">Computers</a>
-          <a class="dropdown-item" [routerLink]="'/products?category=HOBBIES'">Toys & Hobbies</a>
-          <a class="dropdown-item" [routerLink]="'/products?category=BOOKS'">Books</a>
+          <a class="dropdown-item" [routerLink]="'/products'" [queryParams]="{'category': 'MOBILE'}">Mobile</a>
+          <a class="dropdown-item" [routerLink]="'/products'" [queryParams]="{'category': 'COMPUTERS'}">Computers</a>
+          <a class="dropdown-item" [routerLink]="'/products'" [queryParams]="{'category': 'HOBBIES'}">Toys & Hobbies</a>
+          <a class="dropdown-item" [routerLink]="'/products'" [queryParams]="{'category': 'BOOKS'}">Books</a>
         </div>
       </li>
 

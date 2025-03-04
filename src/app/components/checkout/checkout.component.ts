@@ -112,8 +112,10 @@ export class CheckoutComponent implements OnInit {
     const cart: ICart = this.cartService.getCart();
     const order: IOrder = OrderMapper.mapCartToOrder(email, '', cart);
 
+    // First, send request to order backend to initialise Order and create a Stripe Payment Intent
     self.orderService.sendOrder(order)
       .subscribe(o => {
+          // Obtain Stripe's created PaymentIntent from the response, and confirm payment with Stripe
           const intent = o.paymentIntent;
           this.stripeService
             .confirmCardPayment(intent.client_secret, {payment_method: {card: this.card.element}})
