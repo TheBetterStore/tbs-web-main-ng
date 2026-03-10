@@ -30,7 +30,7 @@
         <tr [pEditableRow]="rec" [pSelectableRow]="sel" [pReorderableRow]="index">
           <td class="d-none d-sm-block"><img src="{{rec.product.imageUrl}}" width="50rem" height="50rem"/></td>
           <td>{{rec.product.name}}</td>
-          <td>{{rec.product.brandId}}</td>
+          <td>{{rec.product.productDetails?.brandId}}</td>
 
           <td class="rightalign">
             <p-cellEditor>
