@@ -6,10 +6,8 @@ export interface IProduct {
   bookDetails?: IBookDetails;
   mobileDetails?: IMobileDetails;
   productDetails?: IProductDetails;
-  sku: string;
   description: string;
   price: number;
-  brandId: string;
   hitCount: number;
   imageUrl: string;
   smallerImageUrl: string

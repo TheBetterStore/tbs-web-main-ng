@@ -29,7 +29,9 @@
             {{rec.name}}
           </a>
         </td>
-        <td>{{rec.sku}}</td>
+        <td>
+          <span *ngIf="rec.productDetails.sku">{{rec.productDetails.sku}}</span>
+        </td>
         <td pEditableColumn>
           <p-cellEditor>
             <ng-template pTemplate="input">
@@ -43,14 +45,17 @@
             </ng-template>
           </p-cellEditor>
         </td>
-        <td>{{rec.brandId}}</td>
+        <td>
+          <span *ngIf="rec.productDetails.brandId">{{rec.productDetails.brandId}}</span>
+          <span *ngIf="rec.mobileDetails.brandId">{{rec.mobileDetails.brandId}}</span>
+        </td>
         <td>{{rec.hitCount}}</td>
 
         <td class="rightalign" pEditableColumn>
           <p-cellEditor>
             <ng-template pTemplate="input">
               <input pInputText type="number" min="0" max="99999" [(ngModel)]="rec.price"
-                       (change)="onRecEdited(rec)">
+                  />     (change)="onRecEdited(rec)">
             </ng-template>
 
             <ng-template pTemplate="output">{{rec.price | number : '1.2-2'}}
