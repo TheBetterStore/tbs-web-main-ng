@@ -16,7 +16,6 @@ import {BaseComponent} from "../../base.component";
 })
 export class NavbarComponent extends BaseComponent {
 
-  firstname: string | undefined;
   cartItemCount = 0;
   isLoading = false;
   login!: ILogin;
