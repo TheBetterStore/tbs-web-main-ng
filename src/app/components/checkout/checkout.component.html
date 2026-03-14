@@ -1,50 +1,49 @@
 <span class="alert">{{errorMsg}}</span>
 <span class="info">{{infoMsg}}</span>
-<div class="container page">
+<div class="container py-5">
 
-  <div class="row top-buffer-x2">
-    <div class="col-3"></div>
-    <div class="col-6">
+  <div class="text-center mb-4">
+    <h1 class="display-5 fw-bold">Card Payment</h1>
+    <p class="lead text-muted mx-auto" style="max-width: 700px;">
+      Complete your purchase securely below.
+    </p>
+  </div>
 
-      <div class="card">
-        <div class="card-header text-white bg-primary"><h2>Card Payment</h2></div>
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow-sm">
         <div class="card-body">
-          <div class="alert small">Note: This site is for training & demonstration purposes only and is operating
+          <h4 class="card-title mb-3"><i class="pi pi-credit-card me-2"></i>Payment Details</h4>
+          <div class="alert alert-warning small">
+            Note: This site is for training &amp; demonstration purposes only and is operating
             in test-mode only. DO NOT enter live C/C details (NB CC details are received and handled by Stripe(test))
           </div>
-          <div>Please enter details below:</div>
-          <div class="top-buffer">
-            <form novalidate (ngSubmit)="confirmPayment()" [formGroup]="stripeTest">
-              <div class="row">
-                <div class="col-12">
-                  <input class="form-control fullname" type="text" formControlName="name" placeholder="Full name">
-                </div>
-              </div>
-
-              <div class="row top-buffer-2">
-                <div class="col-12 top-buffer-x2">
-                  <ngx-stripe-card class="form-control"
-                                   [options]="cardOptions"
-                                   [elementsOptions]="elementsOptions"
-                  ></ngx-stripe-card>
-                </div>
-              </div>
-              <div class="text-center">
-                <button type="submit" class="btn btn-primary top-buffer-x2"
-                        [disabled]="isLoading || !stripeTest.valid">
-                  Pay ${{totalAmount| number : '1.2-2'}} NZD
-                </button>
-              </div>
-            </form>
-          </div>
+          <p class="text-muted">Please enter details below:</p>
+          <form novalidate (ngSubmit)="confirmPayment()" [formGroup]="stripeTest">
+            <div class="mb-3">
+              <input class="form-control" type="text" formControlName="name" placeholder="Full name">
+            </div>
+            <div class="mb-3">
+              <ngx-stripe-card class="form-control"
+                               [options]="cardOptions"
+                               [elementsOptions]="elementsOptions"
+              ></ngx-stripe-card>
+            </div>
+            <div class="text-center">
+              <button type="submit" class="btn btn-primary btn-lg"
+                      [disabled]="isLoading || !stripeTest.valid">
+                <i class="pi pi-lock me-2"></i>Pay ${{totalAmount| number : '1.2-2'}} NZD
+              </button>
+            </div>
+          </form>
         </div>
         <div class="card-footer text-center">
-          <span class="text-muted my-footer">Payments powered by Stripe</span>
+          <span class="text-muted fst-italic">Payments powered by Stripe</span>
         </div>
       </div>
-      <div class="col3"></div>
     </div>
   </div>
+
 </div>
 <p-toast position="center"></p-toast>
 <p-progressSpinner *ngIf="isLoading" class="tbs-center"></p-progressSpinner>
