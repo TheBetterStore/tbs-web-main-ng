@@ -1,21 +1,31 @@
 import {Component, OnInit, Output} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {RouterModule} from '@angular/router';
+import {FormsModule} from '@angular/forms';
+import {TableModule} from 'primeng/table';
+import {ToastModule} from 'primeng/toast';
+import {ConfirmDialogModule} from 'primeng/confirmdialog';
+import {ProgressSpinnerModule} from 'primeng/progressspinner';
+import {ButtonModule} from 'primeng/button';
 import {IProduct} from '../../models/product.interface';
 import {CartService} from '../../services/cart.service';
 import {ICart, ICartItem} from '../../models/cart.interface';
 
 @Component({
   selector: 'app-cart',
+  standalone: true,
+  imports: [CommonModule, RouterModule, FormsModule, TableModule, ToastModule, ConfirmDialogModule, ProgressSpinnerModule, ButtonModule],
   templateUrl: './cart.component.html',
   styleUrls: ['./cart.component.scss']
 })
 export class CartComponent implements OnInit {
 
-  errorMsg: string;
-  infoMsg: string;
+  errorMsg = '';
+  infoMsg = '';
   isLoading = false;
-  selectedProducts: ICartItem[];
-  cols;
-  cart: ICart;
+  selectedProducts: ICartItem[] = [];
+  cols: any;
+  cart!: ICart;
 
   constructor(private cartService: CartService) {
     this.cols = [

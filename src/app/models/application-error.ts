@@ -1,3 +1,3 @@
 export class ApplicationError extends Error {
-  status: string;
+  status = '';
 }

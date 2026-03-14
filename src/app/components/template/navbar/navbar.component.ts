@@ -1,41 +1,36 @@
-import {Component, OnDestroy, OnInit, ChangeDetectorRef, NgZone} from '@angular/core';
-import { onAuthUIStateChange, CognitoUserInterface, AuthState } from '@aws-amplify/ui-components';
-import {AmplifyService} from 'aws-amplify-angular';
-import { CognitoUser } from '@aws-amplify/auth';
-import { Auth } from 'aws-amplify';
-import {IProduct} from '../../../models/product.interface';
+import {Component, OnInit, ChangeDetectorRef, NgZone} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {RouterModule} from '@angular/router';
 import {CartService} from '../../../services/cart.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AuthenticationService} from '../../../services/authentication.service';
-import {IUser} from '../../../models/user.interface';
 import {ILogin} from '../../../models/login.interface';
+import {BaseComponent} from "../../base.component";
 
 @Component({
   selector: 'app-navbar',
+  standalone: true,
+  imports: [CommonModule, RouterModule],
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent extends BaseComponent {
 
-  authState: AuthState | undefined;
   firstname: string | undefined;
   cartItemCount = 0;
-  user: CognitoUser;
   isLoading = false;
-  login: ILogin;
+  login!: ILogin;
 
-  constructor(public amplify: AmplifyService,
-              private ref: ChangeDetectorRef,
+  constructor(private ref: ChangeDetectorRef,
               private cartService: CartService,
-              private authenticationService: AuthenticationService,
+              authenticationService: AuthenticationService,
               private route: ActivatedRoute,
-              private ngZone: NgZone,
               private router: Router) {
-
+    super(authenticationService);
     cartService.cartEvent.subscribe(
-      x => this.onCartChanged());
+      () => this.onCartChanged());
 
-    authenticationService.loginEvent.subscribe(
+    this.authenticationService.loginEvent.subscribe(
       user => this.onLoginChanged(user)
     );
   }
@@ -47,7 +42,7 @@ export class NavbarComponent implements OnInit {
   async initialise(): Promise<void> {
     this.isLoading = true;
     this.setCartItemCount();
-    this.user = await this.authenticationService.authenticate();
+    await this.authenticationService.authenticate();
     this.isLoading = false;
   }
 
@@ -66,18 +61,8 @@ export class NavbarComponent implements OnInit {
   }
 
   onLoginChanged(login: ILogin): void {
-    console.log('Entered Navigation.onLoginChanged');
     const self = this;
-    if (login) {
-      console.log('Logged in: ' + login.firstname);
-    }
     self.login = login;
   }
 
-  isAdmin(): boolean {
-    if (this.login && this.login.groups && this.login.groups.find(x => x === 'Administrators')) {
-      return true;
-    }
-    return false;
-  }
 }

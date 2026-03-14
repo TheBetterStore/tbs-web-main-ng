@@ -11,11 +11,11 @@
         <div>
           <p class="small top-buffer hint"><i>* Personal information will never be shared with 3rd parties.</i></p>
           <div class="top-buffer">
-            <amplify-authenticator  [formFields]="formFields" [loginMechanisms]="['email']" onStateChange="handle">
+            <amplify-authenticator>
               <ng-template amplifySlot="authenticated" let-user="user" let-signOut="signOut">
+                <button (click)="signOut()">Sign Out</button>
               </ng-template>
             </amplify-authenticator>
-
           </div>
         </div>
 

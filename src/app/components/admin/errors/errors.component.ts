@@ -1,32 +1,39 @@
 import { Component, OnInit } from '@angular/core';
-import {IError} from "../../../models/error.interface";
-import {ProductService} from "../../../services/product.service";
-import {ActivatedRoute, Router} from "@angular/router";
-import {ConfirmationService, LazyLoadEvent, MessageService} from "primeng/api";
-import {CartService} from "../../../services/cart.service";
-import {ErrorService} from "../../../services/admin/error.service";
+import {CommonModule} from '@angular/common';
+import {RouterModule} from '@angular/router';
+import {FormsModule} from '@angular/forms';
+import {TableModule} from 'primeng/table';
+import {ToastModule} from 'primeng/toast';
+import {ConfirmDialogModule} from 'primeng/confirmdialog';
+import {ProgressSpinnerModule} from 'primeng/progressspinner';
+import {ButtonModule} from 'primeng/button';
+import {IError} from '../../../models/error.interface';
+import {ActivatedRoute, Router} from '@angular/router';
+import {ConfirmationService, LazyLoadEvent, MessageService} from 'primeng/api';
+import {ErrorService} from '../../../services/admin/error.service';
 
 @Component({
   selector: 'app-errors',
+  standalone: true,
+  imports: [CommonModule, RouterModule, FormsModule, TableModule, ToastModule, ConfirmDialogModule, ProgressSpinnerModule, ButtonModule],
   templateUrl: './errors.component.html',
   styleUrls: ['./errors.component.scss']
 })
 export class ErrorsComponent implements OnInit {
 
   isLoading = false;
-  errorMsg: string;
-  infoMsg: string;
+  errorMsg = '';
+  infoMsg = '';
 
-  errors: IError[];
-  selectedErrors: IError[];
-
+  errors: IError[] = [];
+  selectedErrors: IError[] = [];
 
   maxRowsPerPage = 100;
   pageSize = 5;
   offset = 0;
   rowsPerPageList = [5, 25, 50, 100, this.maxRowsPerPage];
 
-  cols: any[];
+  cols: any[] = [];
 
   constructor(private errorService: ErrorService, private route: ActivatedRoute,
               private router: Router, private messageService: MessageService,
@@ -45,9 +52,9 @@ export class ErrorsComponent implements OnInit {
     this.loadErrors(null);
   }
 
-  loadErrors(event: LazyLoadEvent): void {
-    let sortOrder = 1; // Ascending, -1 = Descending
-    let sortField = null;
+  loadErrors(event: LazyLoadEvent | null): void {
+    let sortOrder = 1;
+    let sortField = '';
 
     if (event) {
       this.pageSize = event.rows ? event.rows : this.pageSize;
@@ -62,12 +69,12 @@ export class ErrorsComponent implements OnInit {
 
     this.errorService.getErrors(this.pageSize, this.offset, sortField, sortOrder, '')
       .subscribe(
-        p => {
+        (p: IError[]) => {
           this.errors = p;
           this.errorMsg = '';
           this.isLoading = false;
         },
-        e => {
+        (e: any) => {
           this.messageService.add({
             severity: 'error',
             summary: 'Status retrieval failed',

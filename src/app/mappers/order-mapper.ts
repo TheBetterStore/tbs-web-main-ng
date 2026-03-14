@@ -20,7 +20,7 @@ export class OrderMapper {
     const result: IOrderItem = {
       quantity: i.quantity,
       price: i.product.price,
-      productId: i.product.productId,
+      productId: i.product.productId || '',
       productName: i.product.name,
     };
     return result;

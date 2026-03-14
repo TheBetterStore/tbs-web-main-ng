@@ -1,5 +1,5 @@
 import {switchMap} from 'rxjs/operators';
-import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
+import {HttpEvent, HttpHandler, HttpInterceptor, HttpInterceptorFn, HttpRequest} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {AuthenticationService} from '../services/authentication.service';
 import {from, Observable} from 'rxjs';
@@ -7,27 +7,34 @@ import {from, Observable} from 'rxjs';
 @Injectable()
 export class TokenHttpInterceptor implements HttpInterceptor {
 
-  constructor(public auth: AuthenticationService) {}
+  constructor(public auth: AuthenticationService) {
+    console.log("Constructed interceptor")
+  }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (request.headers.get('skip')) {
-      // Get rid of skip
-      const headers = request.headers
-        .delete('skip');
-      const requestClone = request.clone({
-        headers
-      });
-      return next.handle(requestClone);
-    }
+    const skip = (request.headers.get('skip')!= null);
+    // @ts-ignore
     return from(this.auth.session())
       .pipe(
         switchMap(session => {
-          const headers = request.headers
-            .set('Authorization', ((session && session.idToken) ? (session.idToken.jwtToken) : null))
-            .append('Content-Type', 'application/json');
-          const requestClone = request.clone({
-            headers
-          });
+          let requestClone: any;
+          if(skip) {
+            let headers = request.headers
+              .delete('skip');
+            requestClone = request.clone({
+              headers
+            });
+          }
+          else {
+            const jwt = session?.tokens?.idToken.toString();
+            let headers = request.headers
+              .append('Authorization', jwt)
+              .append('Content-Type', 'application/json');
+            requestClone = request.clone({
+              headers
+            });
+          }
+
           return next.handle(requestClone);
         })
       );

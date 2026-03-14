@@ -10,7 +10,7 @@
 
   <div class="top-buffer">
     <p-table *ngIf="!isLoading" #dt [columns]="orderCols" [value]="orders"
-             rows="{{pageSize}}" [paginator]="true" [rowsPerPageOptions]="rowsPerPageList" responsiveLayout="scroll" >
+             [rows]="pageSize" [paginator]="true" [rowsPerPageOptions]="rowsPerPageList" responsiveLayout="scroll" >
       <ng-template pTemplate="header">
         <tr>
           <th *ngFor="let col of orderCols"  pResizableColumn [style.width]="col.width" >

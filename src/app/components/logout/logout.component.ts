@@ -1,10 +1,11 @@
 import {Component, NgZone, OnInit} from '@angular/core';
-import {Auth} from 'aws-amplify';
 import {Router} from '@angular/router';
 import {AuthenticationService} from '../../services/authentication.service';
 
 @Component({
   selector: 'app-logout',
+  standalone: true,
+  imports: [],
   templateUrl: './logout.component.html',
   styleUrls: ['./logout.component.scss']
 })

@@ -7,7 +7,7 @@
     </div>
   </div>
   <p-table *ngIf="!isLoading" #dt [columns]="cols" [value]="products"
-           rows="{{pageSize}}" [paginator]="true" [rowsPerPageOptions]="rowsPerPageList">
+           [rows]="pageSize" [paginator]="true" [rowsPerPageOptions]="rowsPerPageList">
     <ng-template pTemplate="header">
       <tr>
         <th *ngFor="let col of cols"  pResizableColumn [style.width]="col.width" >

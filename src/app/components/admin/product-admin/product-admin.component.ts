@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {RouterModule} from '@angular/router';
+import {FormsModule} from '@angular/forms';
+import {TableModule} from 'primeng/table';
+import {DropdownModule} from 'primeng/dropdown';
 import {IProduct} from '../../../models/product.interface';
 import {ProductService} from '../../../services/product.service';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -6,16 +11,18 @@ import {ConfirmationService, MessageService} from 'primeng/api';
 
 @Component({
   selector: 'app-product-admin',
+  standalone: true,
+  imports: [CommonModule, RouterModule, FormsModule, TableModule, DropdownModule],
   templateUrl: './product-admin.component.html',
   styleUrls: ['./product-admin.component.scss']
 })
 export class ProductAdminComponent implements OnInit {
 
   isLoading = false;
-  errorMsg: string;
-  infoMsg: string;
+  errorMsg = '';
+  infoMsg = '';
 
-  products: IProduct[];
+  products: IProduct[] = [];
   selectedProducts: any;
 
   maxRowsPerPage = 100;
@@ -23,7 +30,7 @@ export class ProductAdminComponent implements OnInit {
   offset = 0;
   rowsPerPageList = [5, 25, 50, 100, this.maxRowsPerPage];
 
-  typeOptions = ['PHYSICAL', 'DIGITAL']
+  typeOptions = ['PHYSICAL', 'DIGITAL'];
 
   cols = [
     { field: 'imageUrl', header: '', width: '10%', filterMatchMode: 'contains' },
@@ -33,7 +40,6 @@ export class ProductAdminComponent implements OnInit {
     { field: 'brand', header: 'Brand', width: '15%', filterMatchMode: 'contains' },
     { field: 'hitCount', header: 'Hits', width: '10%', filterMatchMode: 'contains' },
     { field: 'price', header: 'Price', width: '10%', filterMatchMode: 'contains', },
-
   ];
 
   constructor(private productService: ProductService, private route: ActivatedRoute,
@@ -46,8 +52,8 @@ export class ProductAdminComponent implements OnInit {
 
   loadProducts(category: string): void {
     const self = this;
-    let sortOrder = 1; // Ascending, -1 = Descending
-    let sortField = null;
+    const sortOrder = 1;
+    const sortField = '';
 
     self.isLoading = true;
     self.products = [];
@@ -55,12 +61,12 @@ export class ProductAdminComponent implements OnInit {
 
     this.productService.getProducts(category, this.pageSize, this.offset, sortField, sortOrder, '')
       .subscribe(
-        p => {
+        (p: IProduct[]) => {
           self.products = p;
           self.errorMsg = '';
           self.isLoading = false;
         },
-        e => {
+        (e: any) => {
           self.messageService.add({
             severity: 'error',
             summary: 'Status retrieval failed',
@@ -75,8 +81,8 @@ export class ProductAdminComponent implements OnInit {
       );
   }
 
-  onRecEdited(rec) {
-    console.log('Rec ediited');
+  onRecEdited(rec: any): void {
+    console.log('Rec edited');
   }
 
 }

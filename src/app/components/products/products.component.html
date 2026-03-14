@@ -17,7 +17,7 @@
 
   <div *ngIf="(selectedCategory=='BOOKS')" class="top-buffer">
     <p-table *ngIf="!isLoading" #dt [columns]="bookCols" [value]="products"
-             rows="{{pageSize}}" [paginator]="true" [rowsPerPageOptions]="rowsPerPageList" responsiveLayout="scroll" >
+             [rows]="pageSize" [paginator]="true" [rowsPerPageOptions]="rowsPerPageList" responsiveLayout="scroll" >
       <ng-template pTemplate="header">
         <tr>
           <th *ngFor="let col of bookCols"  pResizableColumn [style.width]="col.width" >
@@ -51,7 +51,7 @@
 
   <div *ngIf="(selectedCategory=='MOBILE')" class="top-buffer">
     <p-table *ngIf="!isLoading" #dt [columns]="computerCols" [value]="products"
-             rows="{{pageSize}}" [paginator]="true" [rowsPerPageOptions]="rowsPerPageList" responsiveLayout="scroll" >
+             [rows]="pageSize" [paginator]="true" [rowsPerPageOptions]="rowsPerPageList" responsiveLayout="scroll" >
       <ng-template pTemplate="header">
         <tr>
           <th *ngFor="let col of mobileCols"  pResizableColumn [style.width]="col.width" [class]="col.class" >
@@ -86,7 +86,7 @@
 
   <div *ngIf="(selectedCategory=='COMPUTERS')" class="top-buffer">
     <p-table *ngIf="!isLoading" #dt [columns]="computerCols" [value]="products"
-             rows="{{pageSize}}" [paginator]="true" [rowsPerPageOptions]="rowsPerPageList">
+             [rows]="pageSize" [paginator]="true" [rowsPerPageOptions]="rowsPerPageList">
       <ng-template pTemplate="header">
         <tr>
           <th *ngFor="let col of computerCols"  pResizableColumn [style.width]="col.width" >
