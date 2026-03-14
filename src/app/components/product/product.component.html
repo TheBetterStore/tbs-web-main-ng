@@ -1,174 +1,112 @@
 <span class="alert">{{errorMsg}}</span>
 <span class="info">{{infoMsg}}</span>
-<div *ngIf="!isLoading" class="container page">
+<div *ngIf="!isLoading" class="container py-5">
 
-
-  <div class="row myheader">
-    <div class="col-12 text-center">
-      <h2>{{product.name}}</h2>
-    </div>
+  <div class="text-center mb-4">
+    <h1 class="display-5 fw-bold">{{product.name}}</h1>
   </div>
 
-
-
-
-  <div *ngIf="product.category=='BOOKS'" class="card-group top-buffer">
-
-    <div class="card">
-      <div class="body">
-        <div>
-            <img class="card-img" src="{{product.imageUrl}}" />
+  <div *ngIf="product.category=='BOOKS'" class="row justify-content-center g-4">
+    <div class="col-md-4">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body text-center">
+          <img class="img-fluid" src="{{product.imageUrl}}" alt="{{product.name}}" />
         </div>
-
       </div>
     </div>
-
-    <div class="card">
-      <div class="card-body small">
-        <div>
-          <strong>Description:</strong>
+    <div class="col-md-5">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body">
+          <h4 class="card-title mb-3"><i class="pi pi-info-circle me-2"></i>Details</h4>
+          <p class="text-muted">{{product.description}}</p>
+          <div class="row mb-1"><div class="col-4 fw-bold">Author(s):</div><div class="col-8">{{product?.bookDetails?.authors}}</div></div>
+          <div class="row mb-1"><div class="col-4 fw-bold">ISBN:</div><div class="col-8">{{product?.bookDetails?.isbn}}</div></div>
+          <div class="row mb-1"><div class="col-4 fw-bold">Publisher:</div><div class="col-8">{{product?.bookDetails?.publisher}}</div></div>
+          <div class="row mb-1"><div class="col-4 fw-bold">Year:</div><div class="col-8">{{product?.bookDetails?.year}}</div></div>
+          <div class="row mb-1"><div class="col-4 fw-bold">Pages:</div><div class="col-8">{{product?.bookDetails?.pageCount}}</div></div>
         </div>
-        <div>
-          <div class="text">{{product.description}}</div>
-        </div>
-        <div class="row top-buffer">
-          <div class="col-4"><strong>Author(s):</strong></div>
-          <div class="col-8">{{product?.bookDetails?.authors}} </div>
-        </div>
-        <div class="row">
-          <div class="col-4"><strong>Isbn:</strong></div>
-          <div class="col-8">{{product?.bookDetails?.isbn}}</div>
-        </div>
-        <div class="row">
-          <div class="col-4"><strong>Publisher:</strong></div>
-          <div class="col-8">{{product?.bookDetails?.publisher}} </div>
-        </div>
-        <div class="row">
-          <div class="col-4"><strong>Year:</strong></div>
-          <div class="col-8">{{product?.bookDetails?.year}} </div>
-        </div>
-        <div class="row">
-          <div class="col-4"><strong>Pages:</strong></div>
-          <div class="col-8">{{product?.bookDetails?.pageCount}} </div>
-        </div>
-
       </div>
     </div>
-
-    <div class="card">
-      <div class="card-body small">
-        <p>${{product.price | number : '1.2-2'}} NZD</p>
-
-        <p>Quantity:</p>
-        <p><input class="form-control-sm" type="number" value="{{addQuantity}}"></p>
-
-
-        <button class="btn btn-primary" (click)="onAddProduct()">Add to cart</button>
+    <div class="col-md-3">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body">
+          <h4 class="card-title mb-3"><i class="pi pi-shopping-cart me-2"></i>Purchase</h4>
+          <p class="fs-4 fw-bold text-primary">${{product.price | number : '1.2-2'}} NZD</p>
+          <p class="text-muted">Quantity:</p>
+          <input class="form-control mb-3" type="number" value="{{addQuantity}}" style="max-width: 100px;">
+          <button class="btn btn-primary" (click)="onAddProduct()"><i class="pi pi-cart-plus me-2"></i>Add to cart</button>
+        </div>
       </div>
     </div>
   </div>
 
-  <div *ngIf="product.category=='MOBILE'" class="card-group top-buffer">
-
-    <div class="card">
-      <div class="body">
-        <div>
-          <img class="card-img" src="{{product.imageUrl}}" />
-        </div>
-
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-body small">
-        <div>
-          <strong>Description:</strong>
-        </div>
-        <div>
-          <div class="text">{{product.description}}</div>
-        </div>
-        <div class="row top-buffer">
-          <div class="col-4"><strong>Model):</strong></div>
-          <div class="col-8">{{product?.mobileDetails?.model}} </div>
-        </div>
-        <div class="row">
-          <div class="col-4"><strong>Colour:</strong></div>
-          <div class="col-8">{{product?.mobileDetails?.color}}</div>
-        </div>
-        <div class="row">
-          <div class="col-4"><strong>Screen Size:</strong></div>
-          <div class="col-8">{{product?.mobileDetails?.sizeInches}}&quot;</div>
-        </div>
-        <div class="row">
-          <div class="col-4"><strong>Display Res.:</strong></div>
-          <div class="col-8">{{product?.mobileDetails?.displayRes}} </div>
-        </div>
-        <div class="row">
-          <div class="col-4"><strong>CPU:</strong></div>
-          <div class="col-8">{{product?.mobileDetails?.cpuType}} </div>
-        </div>
-        <div class="row">
-          <div class="col-4"><strong>RAM:</strong></div>
-          <div class="col-8">{{product?.mobileDetails?.memoryGB}} GB</div>
-        </div>
-        <div class="row">
-          <div class="col-4"><strong>Storage:</strong></div>
-          <div class="col-8">{{product?.mobileDetails?.storageGB}} GB</div>
-        </div>
-        <div class="row">
-          <div class="col-4"><strong>Battery mAh:</strong></div>
-          <div class="col-8">{{product?.mobileDetails?.batteryMah}} </div>
-        </div>
-        <div class="row">
-          <div class="col-4"><strong>Weight (grams):</strong></div>
-          <div class="col-8">{{product?.mobileDetails?.weightGm}} </div>
+  <div *ngIf="product.category=='MOBILE'" class="row justify-content-center g-4">
+    <div class="col-md-4">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body text-center">
+          <img class="img-fluid" src="{{product.imageUrl}}" alt="{{product.name}}" />
         </div>
       </div>
     </div>
-
-    <div class="card">
-      <div class="card-body small">
-        <p>${{product.price | number : '1.2-2'}} NZD</p>
-
-        <p>Quantity:</p>
-        <p><input class="form-control-sm" type="number" value="{{addQuantity}}"></p>
-
-
-        <button class="btn btn-primary" (click)="onAddProduct()">Add to cart</button>
+    <div class="col-md-5">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body">
+          <h4 class="card-title mb-3"><i class="pi pi-info-circle me-2"></i>Details</h4>
+          <p class="text-muted">{{product.description}}</p>
+          <div class="row mb-1"><div class="col-4 fw-bold">Model:</div><div class="col-8">{{product?.mobileDetails?.model}}</div></div>
+          <div class="row mb-1"><div class="col-4 fw-bold">Colour:</div><div class="col-8">{{product?.mobileDetails?.color}}</div></div>
+          <div class="row mb-1"><div class="col-4 fw-bold">Screen Size:</div><div class="col-8">{{product?.mobileDetails?.sizeInches}}&quot;</div></div>
+          <div class="row mb-1"><div class="col-4 fw-bold">Display Res.:</div><div class="col-8">{{product?.mobileDetails?.displayRes}}</div></div>
+          <div class="row mb-1"><div class="col-4 fw-bold">CPU:</div><div class="col-8">{{product?.mobileDetails?.cpuType}}</div></div>
+          <div class="row mb-1"><div class="col-4 fw-bold">RAM:</div><div class="col-8">{{product?.mobileDetails?.memoryGB}} GB</div></div>
+          <div class="row mb-1"><div class="col-4 fw-bold">Storage:</div><div class="col-8">{{product?.mobileDetails?.storageGB}} GB</div></div>
+          <div class="row mb-1"><div class="col-4 fw-bold">Battery mAh:</div><div class="col-8">{{product?.mobileDetails?.batteryMah}}</div></div>
+          <div class="row mb-1"><div class="col-4 fw-bold">Weight (g):</div><div class="col-8">{{product?.mobileDetails?.weightGm}}</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body">
+          <h4 class="card-title mb-3"><i class="pi pi-shopping-cart me-2"></i>Purchase</h4>
+          <p class="fs-4 fw-bold text-primary">${{product.price | number : '1.2-2'}} NZD</p>
+          <p class="text-muted">Quantity:</p>
+          <input class="form-control mb-3" type="number" value="{{addQuantity}}" style="max-width: 100px;">
+          <button class="btn btn-primary" (click)="onAddProduct()"><i class="pi pi-cart-plus me-2"></i>Add to cart</button>
+        </div>
       </div>
     </div>
   </div>
 
-  <div *ngIf="product.category=='COMPUTERS'" class="card-group top-buffer">
-
-    <div class="card">
-      <div class="body">
-        <div>
-          <img class="card-img" src="{{product.imageUrl}}" />
+  <div *ngIf="product.category=='COMPUTERS'" class="row justify-content-center g-4">
+    <div class="col-md-4">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body text-center">
+          <img class="img-fluid" src="{{product.imageUrl}}" alt="{{product.name}}" />
         </div>
-
       </div>
     </div>
-
-    <div class="card">
-      <div class="card-body small">
-        <strong>Description:</strong>
-        <div class="text">{{product.description}}</div>
+    <div class="col-md-5">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body">
+          <h4 class="card-title mb-3"><i class="pi pi-info-circle me-2"></i>Details</h4>
+          <p class="text-muted">{{product.description}}</p>
+        </div>
       </div>
     </div>
-
-    <div class="card">
-      <div class="card-body small">
-        <p>${{product.price | number : '1.2-2'}} NZD</p>
-
-        <p>Quantity:</p>
-        <p><input class="form-control-sm" type="number" value="{{addQuantity}}"></p>
-
-
-        <button class="btn btn-primary" (click)="onAddProduct()">Add to cart</button>
+    <div class="col-md-3">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body">
+          <h4 class="card-title mb-3"><i class="pi pi-shopping-cart me-2"></i>Purchase</h4>
+          <p class="fs-4 fw-bold text-primary">${{product.price | number : '1.2-2'}} NZD</p>
+          <p class="text-muted">Quantity:</p>
+          <input class="form-control mb-3" type="number" value="{{addQuantity}}" style="max-width: 100px;">
+          <button class="btn btn-primary" (click)="onAddProduct()"><i class="pi pi-cart-plus me-2"></i>Add to cart</button>
+        </div>
       </div>
     </div>
   </div>
+
 </div>
 
 <p-progressSpinner *ngIf="isLoading" class="tbs-center"></p-progressSpinner>

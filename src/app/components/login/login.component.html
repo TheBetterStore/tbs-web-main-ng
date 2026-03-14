@@ -1,24 +1,23 @@
-<div class="container page">
-  <div class="row top-buffer-x2">
-    <div class="col-3"></div>
-    <div class=col-6>
-      <div class="row">
-        <div class="col-12">
-          <span>Please login, or sign-up for making purchases. This will allow you to view order
-            progress and history.</span>
+<div class="container py-5">
+
+  <div class="text-center mb-4">
+    <p class="lead text-muted mx-auto" style="max-width: 700px;">
+      Please login or sign up to make purchases, view order progress and history.
+    </p>
+  </div>
+
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <p class="text-muted small fst-italic">* Personal information will never be shared with 3rd parties.</p>
+          <amplify-authenticator>
+            <ng-template amplifySlot="authenticated" let-user="user" let-signOut="signOut">
+              <button class="btn btn-outline-primary" (click)="signOut()">Sign Out</button>
+            </ng-template>
+          </amplify-authenticator>
         </div>
       </div>
-        <div>
-          <p class="small top-buffer hint"><i>* Personal information will never be shared with 3rd parties.</i></p>
-          <div class="top-buffer">
-            <amplify-authenticator>
-              <ng-template amplifySlot="authenticated" let-user="user" let-signOut="signOut">
-                <button (click)="signOut()">Sign Out</button>
-              </ng-template>
-            </amplify-authenticator>
-          </div>
-        </div>
-
     </div>
   </div>
 
