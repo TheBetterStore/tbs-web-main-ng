@@ -1,8 +1,10 @@
 import {EventEmitter, Injectable, Output} from '@angular/core';
-import {Auth} from 'aws-amplify';
-import {CognitoUser} from '@aws-amplify/auth';
-import {from, Observable} from 'rxjs';
-import {ILogin} from '../models/login.interface';
+import {
+  fetchAuthSession,
+  getCurrentUser,
+  signOut
+} from 'aws-amplify/auth';
+import {ILogin} from "../models/login.interface";
 
 @Injectable({
   providedIn: 'root'
@@ -12,48 +14,65 @@ export class AuthenticationService {
   @Output() loginEvent: EventEmitter<any> = new EventEmitter();
 
   private loggedIn = false;
-
-  constructor() { }
+  login?: ILogin;
 
   emitUser(login: ILogin): void {
-
     this.loginEvent.emit(login);
   }
 
-  async authenticate(): Promise<CognitoUser> {
+  async authenticate(): Promise<any> {
     const self = this;
     let firstname;
 
     try {
-      const user: CognitoUser = await Auth.currentAuthenticatedUser();
-      self.loggedIn = true;
-      console.log(user);
-      const groups = user.getSignInUserSession().getAccessToken().payload['cognito:groups'];
-      console.log(groups);
-      user.getUserAttributes( (a, r) => {
-        if (r) {
-          console.log(r);
-          firstname =  r.find(o => o.Name === 'given_name').Value;
-          const login: ILogin = {
-            firstname,
-            groups
-          };
-          this.loginEvent.emit(login);
-        }
-      });
-      return user;
-    } catch (e) {
-      console.log('Failed auth');
-      this.loginEvent.emit('');
+      const session = await fetchAuthSession();
+
+      //console.log("session:", session);
+
+      let groups: any = session?.tokens?.idToken?.payload["cognito:groups"];
+
+      if(!Boolean(groups)) {
+        groups = [];
+      }
+
+      //console.log("Token: " + session?.tokens?.idToken);
+
+      this.login = {
+        firstname: session?.tokens?.idToken?.payload['given_name'] + '',
+        groups: groups
+      };
+      this.loginEvent.emit(this.login);
+
+      return this.login.firstname;
+    } catch (e: any) {
+      console.log('Failed auth:' + e.message);
+      return "";
     }
   }
 
+  async session(): Promise<any> {
+    const self = this;
+    let firstname;
+
+    try {
+      const session = await fetchAuthSession();
+      return session;
+    } catch (e: any) {
+      console.log('Failed auth:' + e.message);
+      return "";
+    }
+  }
+
+
   async logout(): Promise<any> {
-    await Auth.signOut();
+    await signOut();
     this.loginEvent.emit('');
   }
 
-  public session(): Observable<any> {
-    return from(Auth.currentSession());
+
+  isAdmin(): boolean {
+    const result = Boolean(this?.login && this?.login?.groups && this.login?.groups.find((x: string) => x === 'Administrators'))
+    return result;
   }
+
 }

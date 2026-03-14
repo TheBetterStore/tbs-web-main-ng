@@ -1,4 +1,14 @@
 import {Component, OnInit, Output} from '@angular/core';
+import { TableModule } from 'primeng/table';
+import {DropdownModule} from "primeng/dropdown";
+import {ToastModule} from "primeng/toast";
+import {ProgressSpinnerModule} from "primeng/progressspinner";
+import {ConfirmDialogModule} from "primeng/confirmdialog";
+import {ToolbarModule} from "primeng/toolbar";
+import {ButtonModule} from "primeng/button";
+import {FormsModule} from "@angular/forms";
+import {CommonModule} from '@angular/common';
+import {RouterModule} from '@angular/router';
 import {IProduct} from '../../models/product.interface';
 import {ProductService} from '../../services/product.service';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -7,6 +17,9 @@ import {CartService} from '../../services/cart.service';
 
 @Component({
   selector: 'app-products',
+  standalone: true,
+  imports: [TableModule, DropdownModule, ToastModule, ProgressSpinnerModule, ConfirmDialogModule,
+    ToolbarModule, ButtonModule, FormsModule, CommonModule, RouterModule],
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.scss']
 })
@@ -15,10 +28,10 @@ import {CartService} from '../../services/cart.service';
 export class ProductsComponent implements OnInit {
 
   isLoading = false;
-  errorMsg: string;
-  infoMsg: string;
+  errorMsg: string = '';
+  infoMsg: string = '';
 
-  products: IProduct[];
+  products: IProduct[] = [];
   selectedProducts: any;
 
 
@@ -30,9 +43,9 @@ export class ProductsComponent implements OnInit {
   selectedCategory='Books';
   isCategoryBooks = true;
 
-  bookCols: any[];
-  computerCols: any[];
-  mobileCols: any[];
+  bookCols: any[] = [];
+  computerCols: any[] = [];
+  mobileCols: any[] = [];
   sub: any;
 
   constructor(private productService: ProductService, private route: ActivatedRoute,
@@ -67,7 +80,7 @@ export class ProductsComponent implements OnInit {
 
     this.sub = this.route.queryParams.subscribe(params => {
       console.log(params);
-      this.selectedCategory = params.category || 'ALL';
+      this.selectedCategory = params["category"] || 'ALL';
       this.loadProducts(this.selectedCategory);
     });
   }
@@ -75,7 +88,7 @@ export class ProductsComponent implements OnInit {
   loadProducts(category: string): void {
     const self = this;
     let sortOrder = 1; // Ascending, -1 = Descending
-    let sortField = null;
+    let sortField =  '';
 
     self.isLoading = true;
     self.products = [];
@@ -114,7 +127,7 @@ export class ProductsComponent implements OnInit {
       }, 3000);
   }
 
-  onDeleteProduct(p): void {
+  onDeleteProduct(p: any): void {
     console.log(p);
     const cart = this.cartService.deleteProduct(p);
     this.selectedProducts = cart.orderItems;

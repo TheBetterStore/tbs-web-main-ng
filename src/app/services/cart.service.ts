@@ -19,7 +19,7 @@ export class CartService {
   }
 
   getCart(): ICart {
-    let cart = JSON.parse(localStorage.getItem('cart'));
+    let cart = JSON.parse(localStorage.getItem('cart') || 'null');
 
     if (!cart || !cart.orderItems) {
       cart = this.getEmptyCart();
@@ -43,7 +43,7 @@ export class CartService {
       quantity = 1;
     }
 
-    let cart: ICart = JSON.parse(localStorage.getItem('cart'));
+    let cart: ICart = JSON.parse(localStorage.getItem('cart') || 'null');
     let q;
     if (cart) {
       q = cart.orderItems.find(x => x.product.productId === p.productId);
@@ -70,7 +70,7 @@ export class CartService {
 
   deleteProduct(p: ICartItem): ICart {
 
-    let cart: ICart = JSON.parse(localStorage.getItem('cart'));
+    let cart: ICart = JSON.parse(localStorage.getItem('cart') || 'null');
     console.log(`Product: ${JSON.stringify(p)}`);
 
     if (cart) {

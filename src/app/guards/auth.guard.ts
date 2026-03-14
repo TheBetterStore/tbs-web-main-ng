@@ -1,28 +1,22 @@
-import { Injectable } from '@angular/core';
-import {CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router} from '@angular/router';
-import { Observable } from 'rxjs';
-import { Auth } from 'aws-amplify';
+import {CanActivateFn, Router} from '@angular/router';
+import {AuthenticationService} from "../services/authentication.service";
+import {EnvironmentInjector, inject, runInInjectionContext} from "@angular/core";
 
-@Injectable({
-  providedIn: 'root'
-})
-export class AuthGuard implements CanActivate {
-  constructor(private router: Router) {}
-  canActivate(): Promise < boolean > {
-    return new Promise((resolve) => {
-      Auth.currentAuthenticatedUser({
-        bypassCache: false
-      })
-        .then((user) => {
-          if(user){
-            resolve(true);
-          }
-        })
-        .catch(() => {
-          this.router.navigate(['/login']);
-          resolve(false);
-        });
-    });
+//const injector = inject(EnvironmentInjector);
+// export const AuthGuard: CanActivateFn = async (route, state) => {
+//   return await inject(AuthenticationService).authenticate() ? true : inject(Router).createUrlTree(['/login']);
+// };
+export function AuthGuard(): CanActivateFn {
+  return async (route, routerState) => {
+    const authService = inject(AuthenticationService);
+    const router = inject(Router);
+    const result = await authService.authenticate();
+    console.log(result);
+    if(result == 'undefined') {
+      console.log("Do login")
+      return router.navigateByUrl("/login");
+    }
+    else
+      return result;
   }
-
 }

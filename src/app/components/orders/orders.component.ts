@@ -1,31 +1,35 @@
 import { Component, OnInit } from '@angular/core';
-import {ProductService} from "../../services/product.service";
-import {ActivatedRoute, Router} from "@angular/router";
-import {ConfirmationService, MessageService} from "primeng/api";
-import {OrderService} from "../../services/order.service";
-import {IOrder} from "../../models/order.interface";
+import {CommonModule} from '@angular/common';
+import {RouterModule} from '@angular/router';
+import {TableModule} from 'primeng/table';
+import {ProgressSpinnerModule} from 'primeng/progressspinner';
+import {ActivatedRoute, Router} from '@angular/router';
+import {ConfirmationService, MessageService} from 'primeng/api';
+import {OrderService} from '../../services/order.service';
+import {IOrder} from '../../models/order.interface';
 
 @Component({
   selector: 'app-orders',
+  standalone: true,
+  imports: [CommonModule, RouterModule, TableModule, ProgressSpinnerModule],
   templateUrl: './orders.component.html',
   styleUrls: ['./orders.component.scss']
 })
 export class OrdersComponent implements OnInit {
 
   isLoading = false;
-  errorMsg: string;
-  infoMsg: string;
+  errorMsg = '';
+  infoMsg = '';
 
-  orders: IOrder[];
+  orders: IOrder[] = [];
   selectedOrders: any;
-
 
   maxRowsPerPage = 100;
   pageSize = 5;
   offset = 0;
   rowsPerPageList = [5, 25, 50, 100, this.maxRowsPerPage];
 
-  orderCols: any[];
+  orderCols: any[] = [];
   sub: any;
 
   constructor(private orderService: OrderService, private route: ActivatedRoute,
@@ -39,7 +43,6 @@ export class OrdersComponent implements OnInit {
       { field: 'orderitems.length', header: 'Items', class: '', width: '10%', filterMatchMode: 'contains' },
       { field: 'grossTotal', header: 'Gross Total', width: '15%', class: 'tbs-col-rightalign', filterMatchMode: 'contains', },
       { field: 'netTotal', header: 'Net Total', width: '15%', class: '', filterMatchMode: 'contains' },
-
     ];
 
     this.loadOrders();
@@ -47,8 +50,8 @@ export class OrdersComponent implements OnInit {
 
   loadOrders(): void {
     const self = this;
-    let sortOrder = 1; // Ascending, -1 = Descending
-    let sortField = null;
+    const sortOrder = 1;
+    const sortField = '';
 
     self.isLoading = true;
     self.orders = [];
@@ -56,12 +59,12 @@ export class OrdersComponent implements OnInit {
 
     this.orderService.getOrders(this.pageSize, this.offset, sortField, sortOrder, '')
       .subscribe(
-        p => {
+        (p: IOrder[]) => {
           self.orders = p;
           self.errorMsg = '';
           self.isLoading = false;
         },
-        e => {
+        (e: any) => {
           self.messageService.add({
             severity: 'error',
             summary: 'Status retrieval failed',

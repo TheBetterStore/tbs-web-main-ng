@@ -1,4 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {RouterModule} from '@angular/router';
+import {TableModule} from 'primeng/table';
+import {ToastModule} from 'primeng/toast';
+import {ConfirmDialogModule} from 'primeng/confirmdialog';
+import {ProgressSpinnerModule} from 'primeng/progressspinner';
 import {IProduct} from '../../models/product.interface';
 import {ProductService} from '../../services/product.service';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -7,19 +13,21 @@ import {CartService} from '../../services/cart.service';
 
 @Component({
   selector: 'app-product',
+  standalone: true,
+  imports: [CommonModule, RouterModule, TableModule, ToastModule, ConfirmDialogModule, ProgressSpinnerModule],
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.scss']
 })
 export class ProductComponent implements OnInit {
 
   isLoading = false;
-  errorMsg: string;
-  infoMsg: string;
+  errorMsg = '';
+  infoMsg = '';
   addQuantity = 1;
 
-  product: IProduct;
+  product!: IProduct;
 
-  cols: any[];
+  cols: any[] = [];
 
   constructor(private productService: ProductService, private route: ActivatedRoute,
               private router: Router, private messageService: MessageService,
@@ -27,9 +35,8 @@ export class ProductComponent implements OnInit {
               private cartService: CartService) { }
 
   ngOnInit(): void {
-
     const productId = this.route.snapshot.paramMap.get('productId');
-    this.loadProduct(productId);
+    this.loadProduct(productId!);
   }
 
   loadProduct(productId: string): void {
@@ -39,12 +46,12 @@ export class ProductComponent implements OnInit {
 
     this.productService.getProduct(productId)
       .subscribe(
-        p => {
+        (p: IProduct) => {
           self.product = p;
           self.errorMsg = '';
           self.isLoading = false;
         },
-        e => {
+        (e: any) => {
           self.messageService.add({
             severity: 'error',
             summary: 'Status retrieval failed',
@@ -65,7 +72,7 @@ export class ProductComponent implements OnInit {
     this.router.navigateByUrl('/cart');
   }
 
-  onDeleteProduct(p): void {
+  onDeleteProduct(p: any): void {
     console.log(p);
     const cart = this.cartService.deleteProduct(p);
   }

@@ -1,39 +1,17 @@
-import { Injectable } from '@angular/core';
-import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree} from '@angular/router';
-import { Observable } from 'rxjs';
-import {CognitoUser} from '@aws-amplify/auth';
-import {Auth} from 'aws-amplify';
+import {CanActivateFn, Router} from '@angular/router';
+import {AuthenticationService} from "../services/authentication.service";
+import {EnvironmentInjector, inject, runInInjectionContext} from "@angular/core";
 
-@Injectable({
-  providedIn: 'root'
-})
-export class AdminAuthGuard implements CanActivate {
-  constructor(private router: Router) {
+export function AdminAuthGuard(): CanActivateFn {
+  return async (route, routerState) => {
+    const authService = inject(AuthenticationService);
+    const router = inject(Router);
+    const result = await authService.authenticate();
+    if(!authService.isAdmin()) {
+      console.log("Not authorised")
+      return router.navigateByUrl("/login");
+    }
+    else
+      return result;
   }
-  canActivate(): Promise<boolean> {
-    return new Promise((resolve) => {
-      Auth.currentAuthenticatedUser({
-        bypassCache: false
-      })
-        .then((user: CognitoUser) => {
-            if (user) {
-              {
-                const payload = user.getSignInUserSession().getAccessToken().payload;
-                const groups = payload['cognito:groups'];
-
-                if (groups && groups.includes('MohAdministrators')) {
-                  resolve(true);
-                }
-              }
-            }
-            resolve(false);
-          }
-        )
-        .catch(() => {
-          this.router.navigate(['/login']);
-          resolve(false);
-        });
-    });
-  }
-
 }
