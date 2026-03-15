@@ -1,0 +1,32 @@
+<!-- Chat toggle button -->
+<button class="chat-toggle-btn" (click)="toggle()" aria-label="Toggle chat">
+  <i class="pi" [ngClass]="isOpen ? 'pi-times' : 'pi-comments'"></i>
+</button>
+
+<!-- Chat window -->
+<div class="chat-window" *ngIf="isOpen">
+  <div class="chat-header">
+    <span>Store Assistant</span>
+    <button class="btn-close-chat" (click)="toggle()" aria-label="Close chat">&times;</button>
+  </div>
+
+  <div class="chat-messages">
+    <div *ngIf="messages.length === 0" class="chat-empty">
+      Hi! How can I help you today?
+    </div>
+    <div *ngFor="let msg of messages" class="chat-bubble" [ngClass]="msg.role">
+      {{msg.text}}
+    </div>
+    <div *ngIf="isLoading" class="chat-bubble assistant loading">
+      <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+    </div>
+  </div>
+
+  <div class="chat-input">
+    <input type="text" [(ngModel)]="userInput" (keyup.enter)="send()"
+           placeholder="Type a message..." [disabled]="isLoading" />
+    <button (click)="send()" [disabled]="isLoading || !userInput.trim()" aria-label="Send message">
+      <i class="pi pi-send"></i>
+    </button>
+  </div>
+</div>
