@@ -36,7 +36,7 @@ export class ChatComponent {
     this.isLoading = true;
 
     try {
-      const reply = await this.chatService.sendMessage(text);
+      const reply = await this.chatService.sendMessageAgentCore(text);
       this.messages.push({role: 'assistant', text: reply});
     } catch (e: any) {
       this.messages.push({role: 'assistant', text: 'Sorry, something went wrong. Please try again.'});
